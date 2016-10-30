@@ -11,19 +11,34 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp(name="Driver Control")
 public class DriverControl extends OpMode {
-    DcMotor mL;
-    DcMotor mR;
+    DcMotor mLB;
+    DcMotor mRB;
+    DcMotor mLF;
+    DcMotor mRF;
 
     @Override
     public void init() {
-        mL = hardwareMap.dcMotor.get("mL");
-        mR = hardwareMap.dcMotor.get("mR");
-        mR.setDirection(DcMotorSimple.Direction.REVERSE);
+        mLB = hardwareMap.dcMotor.get("mLB");
+        mRB = hardwareMap.dcMotor.get("mRB");
+        mRF = hardwareMap.dcMotor.get("mRF");
+        mLF = hardwareMap.dcMotor.get("mLF");
+        mRB.setDirection(DcMotorSimple.Direction.REVERSE);
+        mRF.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
     public void loop() {
-        mL.setPower(-gamepad1.left_stick_y);
-        mR.setPower(-gamepad1.right_stick_y);
+        setLeftDrive(-gamepad1.left_stick_y);
+        setRightDrive(-gamepad1.right_stick_y);
+    }
+
+    private void setRightDrive(double p) {
+        mRB.setPower(p);
+        mRF.setPower(p);
+    }
+
+    public void setLeftDrive(double p){
+        mLB.setPower(p);
+        mLF.setPower(p);
     }
 }
